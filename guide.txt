@@ -1,0 +1,30 @@
+# guide
+
+# set colour palette
+1 -> set multicolour
+2 -> set colour red
+3 -> set colour orange
+4 -> set colour yellow
+5 -> set colour green
+6 -> set colour blue
+7 -> set colour violet
+8 -> set colour cyan
+
+# clear screen
+Spacebar -> clear screen
+F -> draw background
+G -> draw colours
+
+# movement
+Up -> move up
+Down -> move down
+Left -> move left
+Right -> move right
+
+# movement speed
+W -> speed up
+S -> speed down
+
+# set size
+A -> size down
+D -> size up
