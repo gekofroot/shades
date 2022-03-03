@@ -1,3 +1,19 @@
+#    Copyright (C) 2022 gekofroot
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as published
+#    by the Free Software Foundation, either version 3 of the License, or
+#    any later version.
+#
+#    This program is distributed WITHOUT ANY WARRANTY; 
+#    See the GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+
+
+
 # modules
 from random import randint
 import pygame as pg
@@ -55,7 +71,7 @@ def main():
             draw_shd = False
             
             # bg switch
-            switch = 0
+            switch = 1
             
             # initial colour
             current_palette = blue_palette
@@ -81,9 +97,8 @@ def main():
                     if event.type == pg.KEYDOWN:
                         if event.key == pg.K_q:
                             pg.quit()
-                        
                         # select colour
-                        if event.key == pg.K_1:
+                        elif event.key == pg.K_1:
                             current_palette = colour_list
                             count = 0
                             count_2 = 5
@@ -131,6 +146,12 @@ def main():
                             count_2 = 5
                             colour = current_palette[count]
                             colour_2 = current_palette[count_2]
+                        elif event.key == pg.K_9:
+                            current_palette = gray_palette
+                            count = 0
+                            count_2 = 5
+                            colour = current_palette[count]
+                            colour_2 = current_palette[count_2]
                         
                         # clear screen
                         elif event.key == pg.K_SPACE:
@@ -164,13 +185,29 @@ def main():
                             time_speed_down = True
 
                         # draw background
-                        elif event.key == pg.K_f:
-                            switch = 1
+                        elif event.key == pg.K_z:
+                            switch = 0
                             draw_shd = True
                         # draw colours
-                        elif event.key == pg.K_g:
-                            switch = 0
+                        elif event.key == pg.K_x:
+                            switch = 1
                             draw_shd = False
+                        elif event.key == pg.K_c:
+                            switch = 2
+                            draw_shd = False
+                        elif event.key == pg.K_v:
+                            switch = 3
+                            draw_shd = False
+                        elif event.key == pg.K_b:
+                            switch = 4
+                            draw_shd = False
+                        elif event.key == pg.K_n:
+                            switch = 5
+                            draw_shd = False
+                        elif event.key == pg.K_m:
+                            switch = 6
+                            draw_shd = False
+
 
                     elif event.type == pg.KEYUP:    
                         if event.key == pg.K_LEFT:
@@ -192,35 +229,45 @@ def main():
                         elif event.key == pg.K_s:
                             time_speed_down = False
 
-                        elif event.key == pg.K_f:
+                        elif event.key == pg.K_z:
                             draw_shd = False
-                        elif event.key == pg.K_g:
+                        elif event.key == pg.K_x:
+                            draw_shd = False
+                        elif event.key == pg.K_c:
+                            draw_shd = False
+                        elif event.key == pg.K_v:
+                            draw_shd = False
+                        elif event.key == pg.K_b:
+                            draw_shd = False
+                        elif event.key == pg.K_n:
+                            draw_shd = False
+                        elif event.key == pg.K_m:
                             draw_shd = False
 
                 # set max
                 if moveRight:
                     recx += move_speed
-                    if recx > width - size_x:
-                        recx = width - size_x
+                    if recx > width - (size_x / 2):
+                        recx = width - (size_x / 2)
                 if moveLeft:
                     recx -= move_speed
-                    if recx < 0:
-                        recx = 0
+                    if recx < 0 - (size_x / 2):
+                        recx = 0 - (size_x / 2)
                 if moveUp:
                     recy -= move_speed
-                    if recy < 0:
-                        recy = 0
+                    if recy < 0 - (size_y / 2):
+                        recy = 0 - (size_y / 2)
                 if moveDown:
                     recy += move_speed
-                    if recy > height - size_y:
-                        recy = height - size_y
+                    if recy > height - (size_y / 2):
+                        recy = height - (size_y / 2)
 
                 if sizeDown:
                     size_x -= 5
                     size_y -= 5
-                    if size_x and size_y <= 60:
-                        size_x = 60
-                        size_y = 60
+                    if size_x and size_y <= 20:
+                        size_x = 20
+                        size_y = 20
                 if sizeUp:
                     size_x += 5
                     size_y += 5
@@ -237,18 +284,62 @@ def main():
                     if time_speed >= 50:
                         time_speed = 50
                 
-                # draw eli
-                elidraw(screen, colour_2, recx, recy, size_x, size_y)
-                pg.display.update()
-                pg.time.wait(time_speed)
-                pg.display.update()
-                pg.time.wait(time_speed)
                 
                 # set switch
-                if switch == 1:
+                # draw background
+                if switch == 0:
+                    elidraw(screen, colour_2, recx, recy, size_x, size_y)
+                    pg.display.update()
+                    pg.time.wait(time_speed)
+                    pg.display.update()
+                    pg.time.wait(time_speed)
                     drawrec(screen, background, recx, recy, size_x, size_y)
-                elif switch == 0:
+                # draw square (fill)
+                elif switch == 1:
+                    pg.display.update()
+                    pg.time.wait(time_speed)
+                    pg.display.update()
+                    pg.time.wait(time_speed)
+                    drawrec(screen, colour, recx, recy, size_x, size_y)
+                # draw square (outline)
+                elif switch == 2:
+                    pg.display.update()
+                    pg.time.wait(time_speed)
+                    pg.display.update()
+                    pg.time.wait(time_speed)
                     drawrec(screen, colour, recx, recy, size_x, size_y, 1)
+                # draw circle (fill)
+                elif switch == 3:
+                    pg.display.update()
+                    pg.time.wait(time_speed)
+                    pg.display.update()
+                    pg.time.wait(time_speed)
+                    elidraw(screen, colour_2, recx, recy, size_x, size_y)
+                # draw circle (outline)
+                elif switch == 4:
+                    pg.display.update()
+                    pg.time.wait(time_speed)
+                    pg.display.update()
+                    pg.time.wait(time_speed)
+                    elidraw(screen, colour_2, recx, recy, size_x, size_y, 1)
+                # draw square/circle (fill)
+                elif switch == 5:
+                    elidraw(screen, colour_2, recx, recy, size_x, size_y)
+                    pg.display.update()
+                    pg.time.wait(time_speed)
+                    pg.display.update()
+                    pg.time.wait(time_speed)
+                    drawrec(screen, colour, recx, recy, size_x, size_y)
+                # draw square/circle (outline)
+                elif switch == 6:
+                    elidraw(screen, colour_2, recx, recy, size_x, size_y, 1)
+                    pg.display.update()
+                    pg.time.wait(time_speed)
+                    pg.display.update()
+                    pg.time.wait(time_speed)
+                    drawrec(screen, colour, recx, recy, size_x, size_y, 1)
+
+
 
             pg.display.update()
             screen.fill(background)

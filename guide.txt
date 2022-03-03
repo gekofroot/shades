@@ -10,10 +10,15 @@
 7 -> set colour violet
 8 -> set colour cyan
 
-# clear screen
+# pen state
 Spacebar -> clear screen
-F -> draw background
-G -> draw colours
+Z -> draw background
+X -> draw square (fill)
+C -> draw square (outline)
+V -> draw circle (fill)
+B -> draw circle (outline)
+N -> draw square/circle (fill)
+M -> draw square/circle (outline)
 
 # movement
 Up -> move up
