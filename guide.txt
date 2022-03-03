@@ -9,6 +9,7 @@
 6 -> set colour blue
 7 -> set colour violet
 8 -> set colour cyan
+9 -> set colour gray
 
 # pen state
 Spacebar -> clear screen
