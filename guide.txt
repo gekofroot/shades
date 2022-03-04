@@ -34,3 +34,14 @@ S -> speed down
 # set size
 A -> size down
 D -> size up
+
+# set strobe on/off
+O -> strobe on
+P -> strobe off
+
+# if strobe off, traverse shade
+F -> shade up
+G -> shade down
+
+# close
+Escape -> exit
