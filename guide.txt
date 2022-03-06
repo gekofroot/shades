@@ -11,6 +11,10 @@
 8 -> set colour cyan
 9 -> set colour gray
 
+# set background colour
+H -> previous background colour 
+J -> next background colour
+
 # pen state
 Spacebar -> clear screen
 Z -> draw background
@@ -34,6 +38,10 @@ S -> speed down
 # set size
 A -> size down
 D -> size up
+
+# set line size
+E -> line size down
+R -> line size up
 
 # set strobe on/off
 O -> strobe on

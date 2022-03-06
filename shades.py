@@ -32,6 +32,8 @@ def main():
     global count
     global count_2
     global count_3
+    global bg_count
+    global current_bg
 
     # variables
     width = 1920
@@ -41,14 +43,16 @@ def main():
     pg.display.set_caption("Shades")
     icon_img = pg.image.load("shades_icon.jpg")
     pg.display.set_icon(icon_img)
-    background = BLACK
-    screen.fill(background)
+    bg_count = 0
+    current_bg = bg_colour_list[bg_count]
+    screen.fill(current_bg)
     pg.mouse.set_visible(False)
 
     recx = 100
     recy = 100
     size_x = 120
     size_y = 120
+    linesize = 1
     move_speed = 20
     
     # animation speed
@@ -65,24 +69,29 @@ def main():
         ranMove = False
 
         # size
-        sizeDown = False
-        sizeUp = False
+        size_down = False
+        size_up = False
+
+        # line size
+        linesize_down = False
+        linesize_up = False
         
+
         # move speed
         time_speed_up = False
         time_speed_down = False
         draw_shd = False
         
         # shade
-        shadeUp = False
-        shadeDown = False
-
+        shade_up = False
+        shade_down = False
+        
         # bg switch
         switch = 1
         
         # strobe on/off
         strobe = 1
-
+ 
         # initial colour
         current_palette = blue_palette
         current_palette_2 = blue_palette
@@ -92,6 +101,7 @@ def main():
         colour = current_palette[count]
         colour_2 = current_palette[count_2]
         colour_3 = current_palette[count_3]
+
 
         while True:
             
@@ -111,6 +121,38 @@ def main():
                 colour_2 = current_palette[count_2]
                 count_2 += 1
             
+            # traverse bg colour
+            def get_prev_bg():
+
+                global bg_colour_list
+                global bg_count
+                global current_bg
+
+                if bg_count == 0:
+                    bg_count = 0
+                else:
+                    bg_count - 1
+                    bg_count -= 1
+                
+                current_bg = bg_colour_list[bg_count]
+                screen.fill(current_bg)
+                pg.display.update()
+
+            def get_next_bg():
+
+                global bg_colour_list
+                global bg_count
+                global current_bg
+
+                if bg_count >= len(bg_colour_list) - 1:
+                    bg_count = len(bg_colour_list) - 1
+                else:
+                    bg_count += 1
+                
+                current_bg = bg_colour_list[bg_count]
+                screen.fill(current_bg)
+                pg.display.update()
+            
             # traverse shade
             def get_prev_shade():
 
@@ -118,7 +160,7 @@ def main():
                 global count_3
                 
                 if count_3 == 0:
-                    count_3 = 1
+                    count_3 = 0
                 else:
                     count_3 - 1
                     count_3 -= 1
@@ -132,20 +174,19 @@ def main():
                     count_3 = len(current_palette) - 1
                 else:
                     count_3 += 1
-
-            def get_next_palette():
-                pass
-
+            
+            # set palette
             def palette_set(palette):
                 
                 global current_palette
                 global count_3
 
                 current_palette = palette
-                count_3 = 0
-                print(current_palette[count_3])
+                if count_3 > len(current_palette) - 1:
+                    count_3 = len(current_palette) -1
                 colour_3 = current_palette[count_3]
             
+            # set palette strobe
             def strobe_palette_set(palette):
                 
                 global current_palette
@@ -165,6 +206,7 @@ def main():
                         pg.quit()
                     
                     if strobe == 0:
+                        
                         # select colour
                         if event.key == pg.K_1:
                             palette_set(colour_list)
@@ -184,14 +226,8 @@ def main():
                             palette_set(violet_palette)
                         elif event.key == pg.K_9:
                             palette_set(gray_palette)
-                        
-                        ## traverse shade
-                        #if event.key == pg.K_g:
-                        #    shadeDown = True
-                        #elif event.key == pg.K_f:
-                        #    shadeUp = True
-                    
                     elif strobe == 1:
+                        
                         # select colour
                         if event.key == pg.K_1:
                             strobe_palette_set(colour_list)
@@ -214,8 +250,7 @@ def main():
                     
                     # clear screen
                     if event.key == pg.K_SPACE:
-                        background = BLACK
-                        screen.fill(background)
+                        screen.fill(current_bg)
                         pg.display.update()
                     
                     # movement speed
@@ -234,9 +269,14 @@ def main():
                     
                     # size
                     elif event.key == pg.K_a:
-                        sizeDown = True
+                        size_down = True
                     elif event.key == pg.K_d:
-                        sizeUp = True
+                        size_up = True
+                    # line size
+                    elif event.key == pg.K_e:
+                        linesize_down = True
+                    elif event.key == pg.K_r:
+                        linesize_up = True
 
                     elif event.key == pg.K_w:
                         time_speed_up = True
@@ -276,9 +316,15 @@ def main():
                     
                     # traverse shade
                     if event.key == pg.K_g:
-                        shadeDown = True
+                        shade_down = True
                     elif event.key == pg.K_f:
-                        shadeUp = True
+                        shade_up = True
+
+                    # traverse background colour
+                    if event.key == pg.K_h:
+                        get_prev_bg()
+                    elif event.key == pg.K_j:
+                        get_next_bg()
 
                 # if keyup
                 elif event.type == pg.KEYUP:    
@@ -292,9 +338,14 @@ def main():
                         moveDown = False
 
                     elif event.key == pg.K_a:
-                        sizeDown = False
+                        size_down = False
                     elif event.key == pg.K_d:
-                        sizeUp = False
+                        size_up = False
+                    
+                    elif event.key == pg.K_e:
+                        linesize_down = False
+                    elif event.key == pg.K_r:
+                        linesize_up = False
 
                     elif event.key == pg.K_w:
                         time_speed_up = False
@@ -317,10 +368,10 @@ def main():
                         draw_shd = False
                     
                     elif event.key == pg.K_g:
-                        shadeDown = False
+                        shade_down = False
                     elif event.key == pg.K_f:
-                        shadeUp = False
-
+                        shade_up = False
+                    
             # set max
             if moveRight:
                 recx += move_speed
@@ -339,18 +390,27 @@ def main():
                 if recy > height - (size_y / 2):
                     recy = height - (size_y / 2)
 
-            if sizeDown:
+            if size_down:
                 size_x -= 5
                 size_y -= 5
                 if size_x and size_y <= 20:
                     size_x = 20
                     size_y = 20
-            if sizeUp:
+            if size_up:
                 size_x += 5
                 size_y += 5
-                if size_x and size_y >= 600:
-                    size_x = 600
-                    size_y = 600
+                if size_x and size_y >= 700:
+                    size_x = 700
+                    size_y = 700
+            
+            if linesize_down:
+                linesize -= 1
+                if linesize <= 1:
+                    linesize = 1
+            if linesize_up:
+                linesize += 1
+                if linesize >= 350:
+                    linesize = 350
 
             if time_speed_up:
                 time_speed -= 10
@@ -361,126 +421,94 @@ def main():
                 if time_speed >= 50:
                     time_speed = 50
             
-            if shadeUp:
+            if shade_up:
                 get_prev_shade()
-            if shadeDown:
+            if shade_down:
                 get_next_shade()
+
             
             
+            def refresh():
+                pg.display.update()
+                pg.time.wait(time_speed)
+                pg.display.update()
+                pg.time.wait(time_speed)
+
+
             # set strobe
             if strobe == 0:
+
                 # set switch
                 # draw background
                 if switch == 0:
                     elidraw(screen, colour_3, recx, recy, size_x, size_y)
-                    pg.display.update()
-                    pg.time.wait(time_speed)
-                    pg.display.update()
-                    pg.time.wait(time_speed)
-                    drawrec(screen, background, recx, recy, size_x, size_y)
+                    refresh()
+                    drawrec(screen, current_bg, recx, recy, size_x, size_y)
                 # draw square (fill)
                 elif switch == 1:
-                    pg.display.update()
-                    pg.time.wait(time_speed)
-                    pg.display.update()
-                    pg.time.wait(time_speed)
+                    refresh()
                     drawrec(screen, colour_3, recx, recy, size_x, size_y)
                 # draw square (outline)
                 elif switch == 2:
-                    pg.display.update()
-                    pg.time.wait(time_speed)
-                    pg.display.update()
-                    pg.time.wait(time_speed)
-                    drawrec(screen, colour_3, recx, recy, size_x, size_y, 1)
+                    refresh()
+                    drawrec(screen, colour_3, recx, recy, size_x, size_y, linesize)
                 # draw circle (fill)
                 elif switch == 3:
-                    pg.display.update()
-                    pg.time.wait(time_speed)
-                    pg.display.update()
-                    pg.time.wait(time_speed)
+                    refresh()
                     elidraw(screen, colour_3, recx, recy, size_x, size_y)
                 # draw circle (outline)
                 elif switch == 4:
-                    pg.display.update()
-                    pg.time.wait(time_speed)
-                    pg.display.update()
-                    pg.time.wait(time_speed)
-                    elidraw(screen, colour_3, recx, recy, size_x, size_y, 1)
+                    refresh()
+                    elidraw(screen, colour_3, recx, recy, size_x, size_y, linesize)
                 # draw square/circle (fill)
                 elif switch == 5:
                     elidraw(screen, colour_3, recx, recy, size_x, size_y)
-                    pg.display.update()
-                    pg.time.wait(time_speed)
-                    pg.display.update()
-                    pg.time.wait(time_speed)
+                    refresh()
                     drawrec(screen, colour_3, recx, recy, size_x, size_y)
                 # draw square/circle (outline)
                 elif switch == 6:
-                    elidraw(screen, colour_3, recx, recy, size_x, size_y, 1)
-                    pg.display.update()
-                    pg.time.wait(time_speed)
-                    pg.display.update()
-                    pg.time.wait(time_speed)
-                    drawrec(screen, colour_3, recx, recy, size_x, size_y, 1)
+                    elidraw(screen, colour_3, recx, recy, size_x, size_y, linesize)
+                    refresh()
+                    drawrec(screen, colour_3, recx, recy, size_x, size_y, linesize)
             elif strobe == 1:
                 
                 # set switch
                 # draw background
                 if switch == 0:
                     elidraw(screen, colour_2, recx, recy, size_x, size_y)
-                    pg.display.update()
-                    pg.time.wait(time_speed)
-                    pg.display.update()
-                    pg.time.wait(time_speed)
-                    drawrec(screen, background, recx, recy, size_x, size_y)
+                    refresh()
+                    drawrec(screen, current_bg, recx, recy, size_x, size_y)
                 # draw square (fill)
                 elif switch == 1:
-                    pg.display.update()
-                    pg.time.wait(time_speed)
-                    pg.display.update()
-                    pg.time.wait(time_speed)
+                    refresh()
                     drawrec(screen, colour, recx, recy, size_x, size_y)
                 # draw square (outline)
                 elif switch == 2:
-                    pg.display.update()
-                    pg.time.wait(time_speed)
-                    pg.display.update()
-                    pg.time.wait(time_speed)
-                    drawrec(screen, colour, recx, recy, size_x, size_y, 1)
+                    refresh()
+                    drawrec(screen, colour, recx, recy, size_x, size_y, linesize)
                 # draw circle (fill)
                 elif switch == 3:
-                    pg.display.update()
-                    pg.time.wait(time_speed)
-                    pg.display.update()
-                    pg.time.wait(time_speed)
+                    refresh()
                     elidraw(screen, colour_2, recx, recy, size_x, size_y)
                 # draw circle (outline)
                 elif switch == 4:
-                    pg.display.update()
-                    pg.time.wait(time_speed)
-                    pg.display.update()
-                    pg.time.wait(time_speed)
-                    elidraw(screen, colour_2, recx, recy, size_x, size_y, 1)
+                    refresh()
+                    elidraw(screen, colour_2, recx, recy, size_x, size_y, linesize)
                 # draw square/circle (fill)
                 elif switch == 5:
                     elidraw(screen, colour_2, recx, recy, size_x, size_y)
-                    pg.display.update()
-                    pg.time.wait(time_speed)
-                    pg.display.update()
-                    pg.time.wait(time_speed)
+                    refresh()
                     drawrec(screen, colour, recx, recy, size_x, size_y)
                 # draw square/circle (outline)
                 elif switch == 6:
-                    elidraw(screen, colour_2, recx, recy, size_x, size_y, 1)
-                    pg.display.update()
-                    pg.time.wait(time_speed)
-                    pg.display.update()
-                    pg.time.wait(time_speed)
-                    drawrec(screen, colour, recx, recy, size_x, size_y, 1)
+                    elidraw(screen, colour_2, recx, recy, size_x, size_y, linesize)
+                    refresh()
+                    drawrec(screen, colour, recx, recy, size_x, size_y, linesize)
 
-
+        #pg.display.update()
+        screen.fill(current_bg)
         pg.display.update()
-        screen.fill(background)
+
 
 if __name__ == '__main__':
     main()
