@@ -93,8 +93,8 @@ def main():
         strobe = 1
  
         # initial colour
-        current_palette = blue_palette
-        current_palette_2 = blue_palette
+        current_palette = gray_palette
+        current_palette_2 = gray_palette
         count = 0
         count_2 = 5
         count_3 = 0
