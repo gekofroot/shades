@@ -34,6 +34,16 @@ def main():
     global count_3
     global bg_count
     global current_bg
+    global palette_set
+    global strobe_palette_set
+    global switch_2
+    global switch_4
+    global switch_6
+    global switch_1
+    global switch_3
+    global switch_5
+    global switch
+    global draw_shd
 
     # variables
     width = 1920
@@ -101,8 +111,7 @@ def main():
         colour = current_palette[count]
         colour_2 = current_palette[count_2]
         colour_3 = current_palette[count_3]
-
-
+        
         while True:
             
             if strobe == 0:
@@ -199,54 +208,129 @@ def main():
                 colour = current_palette[count]
                 colour_2 = current_palette[count_2]
             
+            
+            palette_sc = {
+                    (K_1, KMOD_LCTRL): 'palette_set(colour_list)',
+                    (K_2, KMOD_LCTRL): 'palette_set(red_palette)',
+                    (K_3, KMOD_LCTRL): 'palette_set(orange_palette)',
+                    (K_4, KMOD_LCTRL): 'palette_set(yellow_palette)',
+                    (K_5, KMOD_LCTRL): 'palette_set(green_palette)',
+                    (K_6, KMOD_LCTRL): 'palette_set(blue_palette)',
+                    (K_7, KMOD_LCTRL): 'palette_set(cyan_palette)',
+                    (K_8, KMOD_LCTRL): 'palette_set(violet_palette)',
+                    (K_9, KMOD_LCTRL): 'palette_set(gray_palette)',
+                    }
+            
+
+            strobe_palette_sc = {
+                    (K_1, KMOD_LCTRL): 'strobe_palette_set(colour_list)',
+                    (K_2, KMOD_LCTRL): 'strobe_palette_set(red_palette)',
+                    (K_3, KMOD_LCTRL): 'strobe_palette_set(orange_palette)',
+                    (K_4, KMOD_LCTRL): 'strobe_palette_set(yellow_palette)',
+                    (K_5, KMOD_LCTRL): 'strobe_palette_set(green_palette)',
+                    (K_6, KMOD_LCTRL): 'strobe_palette_set(blue_palette)',
+                    (K_7, KMOD_LCTRL): 'strobe_palette_set(cyan_palette)',
+                    (K_8, KMOD_LCTRL): 'strobe_palette_set(violet_palette)',
+                    (K_9, KMOD_LCTRL): 'strobe_palette_set(gray_palette)',
+                    }
+            
+            def palette_key(event):
+
+                global palette_set
+
+                k = event.key
+                m = event.mod
+                if (k, m) in palette_sc:
+                    exec(palette_sc[k, m])
+
+            def palette_strobe_key(event):
+
+                global strobe_palette_set
+
+                k = event.key
+                m = event.mod
+                if (k, m) in palette_sc:
+                    exec(strobe_palette_sc[k, m])
+            
+            # create function for these
+            def switch_1():
+                
+                global switch
+                switch = 1
+                draw_shd = False
+            
+            def switch_2():
+                
+                global switch
+                switch = 2
+                draw_shd = False
+
+            def switch_3():
+                
+                global switch
+                switch = 3
+                draw_shd = False
+            
+            def switch_4():
+                
+                global switch
+                switch = 4
+                draw_shd = False
+            
+            def switch_5():
+
+                global switch
+                switch = 5
+                draw_shd = False
+            
+            def switch_6():
+                
+                global switch
+                switch = 6
+                draw_shd = False
+
+            fill_sc = {
+                    (K_x, KMOD_LSHIFT): 'switch_2()',
+                    (K_c, KMOD_LSHIFT): 'switch_4()',
+                    (K_v, KMOD_LSHIFT): 'switch_6()',
+                    (K_x, KMOD_LCTRL): 'switch_1()',
+                    (K_c, KMOD_LCTRL): 'switch_3()',
+                    (K_v, KMOD_LCTRL): 'switch_5()',
+                    }
+
+            def shape_fill_key(event):
+
+                global switch_2
+                global switch_4
+                global switch_6
+                global switch_1
+                global switch_3
+                global switch_5
+                global switch
+
+                k = event.key
+                m = event.mod
+                if (k, m) in fill_sc:
+                    exec(fill_sc[k, m])
+
             # move / resize colours
             for event in pg.event.get():
                 if event.type == KEYDOWN:
+                    shape_fill_key(event)
                     if event.key == K_ESCAPE:
                         pg.quit()
                     
                     if strobe == 0:
                         
                         # select colour
-                        if event.key == pg.K_1:
-                            palette_set(colour_list)
-                        elif event.key == pg.K_2:
-                            palette_set(red_palette)
-                        elif event.key == pg.K_3:
-                            palette_set(orange_palette)
-                        elif event.key == pg.K_4:
-                            palette_set(yellow_palette)
-                        elif event.key == pg.K_5:
-                            palette_set(green_palette)
-                        elif event.key == pg.K_6:
-                            palette_set(blue_palette)
-                        elif event.key == pg.K_7:
-                            palette_set(cyan_palette)
-                        elif event.key == pg.K_8:
-                            palette_set(violet_palette)
-                        elif event.key == pg.K_9:
-                            palette_set(gray_palette)
+                        palette_key(event)
+                        shape_fill_key(event)
+                        
                     elif strobe == 1:
                         
                         # select colour
-                        if event.key == pg.K_1:
-                            strobe_palette_set(colour_list)
-                        elif event.key == pg.K_2:
-                            strobe_palette_set(red_palette)
-                        elif event.key == pg.K_3:
-                            strobe_palette_set(orange_palette)
-                        elif event.key == pg.K_4:
-                            strobe_palette_set(yellow_palette)
-                        elif event.key == pg.K_5:
-                            strobe_palette_set(green_palette)
-                        elif event.key == pg.K_6:
-                            strobe_palette_set(blue_palette)
-                        elif event.key == pg.K_7:
-                            strobe_palette_set(cyan_palette)
-                        elif event.key == pg.K_8:
-                            strobe_palette_set(violet_palette)
-                        elif event.key == pg.K_9:
-                            strobe_palette_set(gray_palette)
+                        palette_strobe_key(event)
+                        shape_fill_key(event)
                     
                     # clear screen
                     if event.key == pg.K_SPACE:
@@ -294,26 +378,6 @@ def main():
                     elif event.key == pg.K_p:
                         strobe = 0
 
-                    # draw colours
-                    elif event.key == pg.K_x:
-                        switch = 1
-                        draw_shd = False
-                    elif event.key == pg.K_c:
-                        switch = 2
-                        draw_shd = False
-                    elif event.key == pg.K_v:
-                        switch = 3
-                        draw_shd = False
-                    elif event.key == pg.K_b:
-                        switch = 4
-                        draw_shd = False
-                    elif event.key == pg.K_n:
-                        switch = 5
-                        draw_shd = False
-                    elif event.key == pg.K_m:
-                        switch = 6
-                        draw_shd = False
-                    
                     # traverse shade
                     if event.key == pg.K_g:
                         shade_down = True
@@ -353,18 +417,6 @@ def main():
                         time_speed_down = False
 
                     elif event.key == pg.K_z:
-                        draw_shd = False
-                    elif event.key == pg.K_x:
-                        draw_shd = False
-                    elif event.key == pg.K_c:
-                        draw_shd = False
-                    elif event.key == pg.K_v:
-                        draw_shd = False
-                    elif event.key == pg.K_b:
-                        draw_shd = False
-                    elif event.key == pg.K_n:
-                        draw_shd = False
-                    elif event.key == pg.K_m:
                         draw_shd = False
                     
                     elif event.key == pg.K_g:
@@ -433,7 +485,6 @@ def main():
                 pg.time.wait(time_speed)
                 pg.display.update()
                 pg.time.wait(time_speed)
-
 
             # set strobe
             if strobe == 0:

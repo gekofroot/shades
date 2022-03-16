@@ -1,15 +1,15 @@
 # guide
 
 # set colour palette
-1 -> set multicolour
-2 -> set colour red
-3 -> set colour orange
-4 -> set colour yellow
-5 -> set colour green
-6 -> set colour blue
-7 -> set colour violet
-8 -> set colour cyan
-9 -> set colour gray
+L_CTRL + 1 -> set multicolour
+L_CTRL + 2 -> set colour red
+L_CTRL + 3 -> set colour orange
+L_CTRL + 4 -> set colour yellow
+L_CTRL + 5 -> set colour green
+L_CTRL + 6 -> set colour blue
+L_CTRL + 7 -> set colour violet
+L_CTRL + 8 -> set colour cyan
+L_CTRL + 9 -> set colour gray
 
 # set background colour
 H -> previous background colour 
@@ -18,12 +18,12 @@ J -> next background colour
 # pen state
 Spacebar -> clear screen
 Z -> draw background
-X -> draw square (fill)
-C -> draw square (outline)
-V -> draw circle (fill)
-B -> draw circle (outline)
-N -> draw square/circle (fill)
-M -> draw square/circle (outline)
+L_CTRL + X -> draw square (fill)
+L_CTRL + V -> draw circle (fill)
+L_CTRL + C -> draw square/circle (fill)
+L_SHIFT + C -> draw square (outline)
+L_SHIFT + X -> draw circle (outline)
+L_SHIFT + V -> draw square/circle (outline)
 
 # movement
 Up -> move up
