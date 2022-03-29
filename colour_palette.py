@@ -579,6 +579,9 @@ cyan_palette = [
         CYAN_49, CYAN_50, CYAN_51
 ]
 
+bg_colour_list = [
+WHITE, BLACK,
+]
 
 colour_list = [
 BLACK, WHITE, GRAY, 
